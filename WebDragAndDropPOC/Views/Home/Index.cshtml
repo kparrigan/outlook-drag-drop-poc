@@ -1,0 +1,22 @@
+﻿<input id="fileupload" type="file" name="files[]" multiple style="visibility:hidden">
+<div class="jumbotron" id="dropzone" data-bind="event:{
+                dragover:   function(data, e){ $root.dragover(e);},
+                drop:       function(data, e){ $root.drop(e, $data);},
+                dragenter:  function(data, e){ $root.dragenter(e);},
+                dragleave:  function(data, e){ $root.dragleave(e);}
+            }, css: { 'drophover': hover}">
+    Choose a file.
+</div>
+
+<div class="jumbotron" id="fileDetails" data-bind="foreach: fileDetails">
+    File Name: <span id="fileName" data-bind="text: filename"></span><br />
+    Subject: <span id="subject" data-bind="text: subject"></span><br />
+    Sender: <span id="sender" data-bind="text: sender"></span><br />
+    Recipients: <span id="recipients" data-bind="text: recipients"></span><br />
+    Attachments:
+    <ul data-bind="foreach: attachments">
+        <li>
+            <span data-bind="text: $data"> </span>
+        </li>
+    </ul>
+</div>
