@@ -36,7 +36,7 @@ namespace WebDragAndDropPOC.Middleware
 
             if (!File.Exists(localFileName))
             {
-                throw new ArgumentException("File does not exist.", nameof(localFileName));
+                throw new FileNotFoundException($"{localFileName} does not exist.", nameof(localFileName));
             }
 
             if (string.IsNullOrWhiteSpace(originalFileName))

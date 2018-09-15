@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WebDragAndDropPOC.Middleware;
+using CustomAttributes;
 
 namespace WebDragAndDropPOC.Test
 {
@@ -40,6 +41,36 @@ namespace WebDragAndDropPOC.Test
             var metadata = parser.Parse(filePath, fileName);
 
             Assert.AreEqual(1, metadata.Attachments.Count);
+        }
+
+        [TestMethod]
+        [CustomExpectedException(typeof(FileNotFoundException), ExpectedExceptionMessage = "foo does not exist.")]
+        public void CanHandleInvalidLocalFileName()
+        {
+            var parser = new MsgParser();
+
+            var metadata = parser.Parse("foo", "bar.txt");
+        }
+
+        [TestMethod]
+        [CustomExpectedException(typeof(ArgumentException), ParameterName = "localFileName")]
+        public void CanHandleEmptyLocalFileName()
+        {
+            var parser = new MsgParser();
+
+            var metadata = parser.Parse(string.Empty, "bar.txt");
+        }
+
+        [TestMethod]
+        [CustomExpectedException(typeof(ArgumentException), ParameterName = "originalFileName")]
+        public void CanHandleEmptyOriginalFileName()
+        {
+            const string fileName = "filter_test.msg";
+            var directory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            var filePath = Path.Combine(directory, "Data", fileName);
+            var parser = new MsgParser();
+
+            var metadata = parser.Parse(filePath, string.Empty);
         }
     }
 }
